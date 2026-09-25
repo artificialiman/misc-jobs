@@ -726,6 +726,73 @@ THERE SHOULD BE NO STANDALONES APART FROM THE GENERAL FIVE
 t1 IS ONLY LETTING DT FOR SS1 GO TO ANOTHER TEACHER, WHO ALSO WONT BE AVAILABLE ON THURSDAY MORNING
 ARRANGE MY INVARIANTS , CONSTRAINTS, SCHEDULES, AND flag what you must before we continue
 
+https://raw.githubusercontent.com/artificialiman/misc-jobs/refs/heads/main/ss1-ss3-timetable-overlap%20(1).html
+read the read me for complete context
+https://github.com/artificialiman/misc-jobs
+
+Locking in your answers before touching the model:
+
+History/Lit-in-Eng: forked like FM/Agric — one shared dept-slot, History OR Lit at that slot (student picks one), total 4/week combined, split 2+2 by default. Flagged as provisional since T13's own availability isn't known yet — easy to rebalance once you have it.
+
+Chemistry redistribution: T11 drops to 3/week per class (SS2, SS3) — 6 total instead of 8. The other 2/week per class (4 total) move to P9/10 (2:30–4:00), spread across T1's 4 available days (Mon/Tue/Wed/Thu), taught by T1. Since Chemistry sits inside the Science dept-triple, and Comm/Arts partners in that slot are fixed teachers (T9/T7/T8/T2/T13), staggering matters so no single Comm/Arts teacher gets stuck paired with the P9/10 Chem block every time — I'll let the solver freely vary which Comm/Arts subject partners each P9/10 Chem slot, rather than fixing a pattern, so the load spreads naturally.
+
+Edited a file, ran a command, read a file
+Now T13 needs a teacher-free entry (unrestricted, since availability unknown), and the History/LitInEng fork needs a "one-of-per-slot, shared display" treatment like FMAGRIC — but unlike FMAGRIC, they're two different named subjects each with their own target, that should never co-occur in the same slot for the same class (fork logic), rather than a single merged unit. Let me check how FMAGRIC's fork is actually enforced — it isn't, it's just one unit both teachers commit to. History/Lit needs real fork exclusivity. Let's find the dept-triple-per-category constraint.
+
+Ran a command
+Good — that constraint already caps each category (sci/comm/arts) to at most 1 subject per slot. Since History and LitInEng are both "arts" category, this constraint already forces them to be mutually exclusive per slot — exactly the fork behavior needed. No extra work required there. Now add T13's availability entry and re-solve.
+
+Edited a file, ran a command, read a file
+This is safe since teach[c] for SS1's Chemistry_ext is None, and None == t is just False — no crash. But T13 isn't in the TEACHERS list for clash-checking, so its slots would never be checked against itself. Add it:
+
+Edited 2 files, ran 2 commands, read a file
+Chemistry_ext (T1's SS2/SS3 P9/10 slots) failed completely — 0/2 placed in both variants. This is the honest finding: Variant A has no P9/10 slots at all for T1 to use on SS2/SS3 outside Mon/Tue, and even within Mon/Tue, T1 is already fully committed to SS1's Chemistry/FM/DT there. Let me check exactly why.
+
+Ran a command
+Confirmed by direct inspection: DT ate almost every P9/10 slot across all 3 classes. DT sits on the whitelist too, and since T1/T12 both benefit from DT filling those slots (whitelist-favorable, no shortfall penalty), the solver used P9/10 mostly for DT and the other whitelisted joint subjects, leaving zero room for T1 to also do SS2/SS3 Chemistry there. This is a genuine capacity conflict, not a bug — I'll report it straight rather than force a workaround.
+
+Ran a command
+Honest finding, before any fix: Chemistry_ext needs T1 in P9/10 for both SS2 and SS3, 2 periods/week each = 4 slots/week. Variant A has only 4 P9/10 slots per class total (Mon+Tue), and Variant B has 8 per class (Mon–Thu) — capacity isn't the wall, contention is: DT, Math, English, Civic, Livestock, Physics, Commerce, Government are all whitelisted and all still need periods, and they get first claim because losing them costs more (weighted higher in the objective) than losing the newly-added Chemistry_ext.
+
+Two real ways to fix this — your call:
+
+Chemistry_ext (T1's SS2/SS3 chunk at 2:30-4) is losing the fight for P9/10 slots against DT/Math/English/etc. How should I resolve it?
+balance between chem and dt on those periods/days... maths english livestock can round up the rest dt1 and livestock can be thurdays aswell [basically free up t1 from that period on thursday]
+Three moves here:
+
+Chemistry_ext gets priority alongside DT specifically in P9/10 — not above everything, just balanced against DT (its main competitor for T1's own time there).
+Math, English, Livestock absorb the rest of P9/10 — they're already whitelisted, just deprioritized relative to Chem/DT.
+DT and Livestock get added to Thursday at 2:30–4:00 — meaning Thursday becomes an extended day too (currently only Variant B has Wed/Thu extension at all; Variant A has none). This directly frees T1 from needing to cover DT-adjacent Thursday slots, since Livestock(T6)/DT(T12 for SS1, T1 for SS2/SS3) can run there instead of competing with Chem for Mon/Tue/Wed room.
+Let me apply this properly — raise Chemistry_ext's priority weight to match DT/Math/English, and extend Thursday's P9/10 window in both variants (since this is really about freeing capacity, not variant-specific).
+
+Edited 2 files, ran a command
+Chemistry_ext still 0/2 for both classes, in both variants. Extending Thursday for DT/Livestock didn't relieve T1's actual bottleneck, because in Variant A T1 himself is still off Thursday entirely — I only opened Thursday P9/10 for other teachers, not for T1. Chemistry_ext specifically needs T1's own presence, and T1's total P9/10 window is still just Mon+Tue (4 slots), all being consumed by SS1's own Chemistry/DT/FM needs before SS2/SS3 Chemistry ever gets a look-in. Let me check T1's actual slot-by-slot usage to confirm.
+
+Ran a command
+This is important: T1's SS2/SS3 rows above (marked "Chemistry" and "DT") are actually T11 and T12/T1's regular-hours Chemistry/DT — the solver is already using T1 up to 22/22 across P1-8 and the Mon/Tue P9/10 window, with zero slots left over for a distinct Chemistry_ext block. T1 is fully saturated before Chemistry_ext gets a turn. The real fix has to touch T1's capacity, not just P9/10 priority weighting.
+
+T1 is already fully booked (22/22 slots) before Chemistry_ext gets a turn in Variant A — there's no spare capacity left, not just a priority problem. How do you want to free room?
+Accept 0 for Chemistry_ext — it was aspirational, not essential; report honestly and move on
+Understood — Chemistry_ext stays at 0/2 for SS2 and SS3 in both variants, reported honestly, not forced.
+
+Ran 2 commands, edited a file
+All flagged mismatches match the accepted shortfalls list (Chemistry_ext=0, plus the Arts/Comm-needs-Science tax on History/LitInEng/CRS/Government/Yoruba). No new structural violations, no teacher clashes, no cap breaks. Now render the deliverable with this fully transparent state.
+
+Edited a file, ran a command, shared files
+Updated file above. Summary of what changed and what's honest vs. accepted:
+
+Item	Result
+Lit-in-Eng (T13) added, forked with History	Yes — both provisional at 2/week each, flagged for revision once T13's real constraints are known
+History's per-week load reduced	Yes — 4→2/week, since it now shares its slot with Lit rather than owning it alone
+Chemistry_ext (T1 covers SS2/SS3 Chem at 2:30–4)	0/2 for both classes, both variants — accepted as aspirational per your last answer; T1 is fully booked (22/22) before this gets a turn
+Thursday P9/10 window opened (Variant A)	Yes, but only for DT/Livestock/Math/English — T1 himself stays off it entirely
+Zero teacher clashes, whitelist, consecutive-cap, Biology-alone, Arts/Comm-needs-Science, FM/Agric-on-Friday	All hold clean in both variants
+Remaining small shortfalls (1–2/week)	Government/SS3, History-or-LitInEng/SS2, CRS/SS3 (Variant A); History/SS3, Yoruba/SS2-3 (Variant B) — all the continuing cost of the Science-everywhere rule
+
+Ss1 ss3 timetable t1 variants
+Code·HTML 
+
+
 
 
 
