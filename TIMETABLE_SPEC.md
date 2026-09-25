@@ -100,46 +100,43 @@ pattern as FM/Agric), Yoruba (T8), CRS (T8).
 
 ---
 
-## Flagged — needs a direct answer, not a guess
+## Resolved (previously flagged F1–F4)
 
-**F1 — T12's Thursday availability.** The very last message of the
-prior session said T12 (SS1's secondary DT teacher) "also won't be
-available on Thursday morning" — but the session hit its message limit
-immediately after, so it's unclear whether this was ever actually built
-into a solve. Treating it as live unless told otherwise: **T12 = no
-Thursday morning (periods 1–5), same shape as T3/T6.** Confirm?
+- **T12 (SS1's secondary DT teacher):** no Thursday morning (periods
+  1–5) — he's a corps member, same restriction shape as T3/T6.
+- **T13 (Lit-in-Eng):** availability still genuinely unknown. Stays
+  unscheduled/deferred — do not guess a day for him. History (T7,
+  full-time/unrestricted) is scheduled normally; Lit-in-Eng is left
+  out of the solve entirely until his real availability is known.
+- **SS1 Chemistry's ceiling:** not a fixed target. Priority order
+  (below) governs — Chemistry gets exactly as many periods as T1's
+  real, fully-committed weekly schedule allows once every teacher's
+  availability and every subject's coverage is satisfied first. If
+  that number is less than 8/wk, that's the honest answer, reported
+  plainly, not chased further by inventing new capacity fixes.
+- **Variant:** A only (T1 fully off Wed+Thu, including the extended
+  block). Variant B is dropped.
 
-**F2 — T13's real availability.** Never provided — every solve so far
-has treated Lit-in-Eng as unrestricted, flagged explicitly as
-provisional each time. This directly affects how much of History/Lit's
-2+2 split is actually achievable. What are T13's actual constraints?
+## Priority order (governs every trade-off in the solver)
 
-**F3 — SS1 Chemistry's real ceiling.** The 8/wk boost was the single
-most contested number in the whole session — capacity math for it kept
-being recomputed and kept coming up short (T1 needing 32–36 slots
-against a 24–28-slot week). The session ended accepting real shortfalls
-here more than once, without ever landing on one final number. Given
-everything else now locked (T1 off Wed+Thu entirely, 2 of SS1's DT
-periods moved to T12), what's the actual achievable ceiling — do you
-want me to compute it fresh against this locked spec before promising
-8/wk again, or set a lower, honestly-achievable target up front?
+1. **Teacher availability** — never violated, under any circumstance.
+2. **Subject coverage** — every active subject gets placed somewhere
+   at least once, before any subject is allowed to hit its full
+   target frequency.
+3. **Frequency targets** — the weekly counts in the table above are
+   aspirational once 1 and 2 are satisfied. If something must give,
+   it's frequency that drops, never a teacher's availability and never
+   a subject's basic coverage.
 
-**F4 — Is Variant B still wanted?** The transcript carried two parallel
-scenarios throughout — Variant A (T1 fully off Wed+Thu) and Variant B
-(T1 off Wed+Thu for periods 1–8 but available for the 2:30–4:00
-extended block both days). Do you still want both solved and compared
-side by side, or has Variant A been decided as the real one to build?
+## F5 — Genuine free periods vs. solver failure
 
-**F5 — Genuine free periods vs. solver failure.** Once this spec is
-confirmed, I'm treating **any blank cell in the final output as a bug
-to fix, not an acceptable result** — the only free periods that should
-exist are the honestly-reported, capacity-driven shortfalls listed
-above (or discovered fresh once solving), each one named and explained
-on the page itself, the way the better of the two existing files
-already does it for its 8 free cells. Nothing should end up blank
-just because a solver ran out of moves.
+Any blank cell in the final output must be an honestly-reported,
+capacity-driven shortfall — never just a slot the solver gave up on.
+Every remaining gap gets named and explained directly on the output
+page itself, the same way the better of the two existing HTML files
+already did for its 8 free cells.
 
 ---
 
-Once F1–F4 are answered, I'll rebuild the solver properly against this
-locked spec and generate a clean output with zero unexplained blanks.
+All previously-flagged points are now resolved. Solver build proceeds
+against this spec as locked.
