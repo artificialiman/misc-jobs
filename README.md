@@ -841,12 +841,80 @@ Arts department mostly held off — Government, History, Yoruba, Lit-in-Eng stay
 Writing the actual solver now — nothing like this exists in the repo yet, so building it from scratch against the locked spec.
 
 Ran 3 commands, created 3 files, and 2 more tools
+Setting up scheduling priorities for the solver.
+
+Untangling teacher-specific constraints and deferring some assignments.
+
+Delaying arts subjects until a teacher's day is set.
+
+Clarifying which subjects to place versus leave pending.
+
+Building a solver and reworking department grouping rules.
+
+Encoding teacher availability data for the solver.
+
+Detailing remaining teacher constraints and which subjects stay deferred.
+
+Relaxing department-triple rules to fit science and commercial slots.
+
 Good, imports cleanly. Now the main build script with the full priority-ordered placement:
+Building a scheduling solver for a school timetable.
+
+Defining hard and soft constraints for the schedule builder.
+
+Building a scheduling solver for class timetables.
+
+Ordering subjects by scheduling constraints before placement.
+
+Designing a scheduling algorithm with priority-based placement.
+
+Handling paired subjects that must share a single time slot.
 Editing code to insert a new function definition.
 PAUSED
 
 
+PRIVILEDGED AGENT 2
 
+Ran 3 commands, read 2 files
+Exploring the repo to complete a timetable.
+Examining project files to understand the documentation structure.
+Now I understand the full picture — the README's tail reveals the session actually got past the flagged questions before cutting off mid-build:
+
+Priority order ruled: availability > coverage > frequency, never sacrifice the first two for the third.
+F4 ruled: Variant A only, Variant B dropped.
+History (T7): confirmed full-time/unrestricted.
+Lit-in-Eng (T13): shape known (single-day, exempt from consecutive cap) but the actual day was never given — that session chose to leave it unscheduled rather than guess.
+No solver code exists anywhere in the repo — only hand-built HTML outputs. Let me build the real thing.
+
+
+
+Designing a weekly schedule grid layout.
+
+Mapping each teacher's exact availability constraints.
+
+Working out each teacher's extended-period eligibility rules.
+
+Assigning fixed single-day slots for remaining subjects.
+
+Untangling DT's split teacher assignments across sections.
+
+Calculating whether one teacher's total load fits available slots.
+
+Writing a solver to build the schedule programmatically.
+
+Working out a capacity model with several constraints.
+
+Rechecking a teacher split that skewed the capacity budget.
+
+Mapping shared-teacher conflicts across classes on the same day.
+
+Optimizing a class schedule to fit all subject targets.
+
+Untangling ambiguous wording on forked subject scheduling rules.
+
+Reconsidering whether forked slots run simultaneously in parallel rooms.
+
+Recalculating teacher load with the corrected pairing rule.
 
 
 
