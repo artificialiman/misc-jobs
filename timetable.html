@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Timetable — SS1, SS2, SS3</title>
+<style>
+:root {
+  --bg: #faf9f7;
+  --card: #ffffff;
+  --ink: #1c1c1c;
+  --muted: #6b6b6b;
+  --line: #e4e1db;
+  --joint: #eef3ee;
+  --joint-ink: #2f5233;
+  --dept: #f6f2ea;
+  --free: #f2f2f2;
+  --accent: #8a6d3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #171614;
+    --card: #211f1c;
+    --ink: #ece8e1;
+    --muted: #a39d90;
+    --line: #3a362f;
+    --joint: #22301f;
+    --joint-ink: #b7d9b0;
+    --dept: #2b271e;
+    --free: #262420;
+    --accent: #d1b06b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #171614; --card: #211f1c; --ink: #ece8e1; --muted: #a39d90;
+  --line: #3a362f; --joint: #22301f; --joint-ink: #b7d9b0; --dept: #2b271e;
+  --free: #262420; --accent: #d1b06b;
+}
+* { box-sizing: border-box; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+header {
+  padding: 28px 20px 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+h1 {
+  font-size: 1.5rem;
+  margin: 0 0 4px;
+  font-weight: 700;
+}
+.subtitle {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+}
+nav {
+  display: flex;
+  gap: 8px;
+  padding: 12px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  background: var(--bg);
+  z-index: 10;
+}
+nav a {
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+.class-block {
+  margin-bottom: 40px;
+  scroll-margin-top: 70px;
+}
+.class-block h2 {
+  font-size: 1.15rem;
+  margin: 0 0 10px;
+  color: var(--accent);
+}
+.table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 640px;
+}
+th, td {
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.82rem;
+}
+th:last-child, td:last-child { border-right: none; }
+thead th {
+  background: var(--card);
+  font-weight: 700;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.time-col {
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.time-col .time {
+  font-weight: 400;
+  font-size: 0.7rem;
+}
+td.joint {
+  background: var(--joint);
+}
+td.joint .subj {
+  font-weight: 700;
+  color: var(--joint-ink);
+}
+td.joint .teacher {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+td.dept {
+  background: var(--dept);
+}
+.dept-line {
+  line-height: 1.5;
+}
+.dept-line:not(:last-child) {
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+}
+td.free {
+  background: var(--free);
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+.break-row td {
+  background: repeating-linear-gradient(45deg, var(--line), var(--line) 4px, transparent 4px, transparent 10px);
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-align: center;
+  font-weight: 600;
+}
+.break-cell {
+  text-align: center !important;
+}
+footer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.6;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>SS1 – SS3 Weekly Timetable</h1>
+  <p class="subtitle">8:20 AM – 2:30 PM · 40-minute periods · shared 10-teacher pool across all three classes</p>
+</header>
+<nav>
+  <a href="#SS1">SS1</a>
+  <a href="#SS2">SS2</a>
+  <a href="#SS3">SS3</a>
+</nav>
+<main>
+
+    <section class="class-block" id="SS1">
+      <h2>SS1</h2>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Period</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr></thead>
+        <tbody>
+        <tr><td class="time-col">P1<br><span class="time">8:20–9:00</span></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td></tr>
+<tr><td class="time-col">P2<br><span class="time">9:00–9:40</span></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td></tr>
+<tr><td class="time-col">P3<br><span class="time">9:40–10:20</span></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td></tr>
+<tr><td class="time-col">P4<br><span class="time">10:20–11:00</span></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td></tr>
+<tr><td class="time-col">P5<br><span class="time">11:00–11:40</span></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Accounts(T5)</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Economics(T9)</div></td><td class="dept"><div class="dept-line">Chem(T1)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="free">Free</td></tr>
+<tr class="break-row"><td class="time-col">Break</td><td colspan="5" class="break-cell">11:40 – 12:30</td></tr>
+<tr><td class="time-col">P6<br><span class="time">12:30–1:10</span></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Accounts(T5)</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Economics(T9)</div></td><td class="dept"><div class="dept-line">Chem(T1)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="free">Free</td></tr>
+<tr><td class="time-col">P7<br><span class="time">1:10–1:50</span></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="dept"><div class="dept-line">Chem(T1)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P8<br><span class="time">1:50–2:30</span></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="dept"><div class="dept-line">Chem(T1)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+
+        </tbody>
+      </table>
+      </div>
+    </section>
+    
+    <section class="class-block" id="SS2">
+      <h2>SS2</h2>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Period</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr></thead>
+        <tbody>
+        <tr><td class="time-col">P1<br><span class="time">8:20–9:00</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Accounts(T5)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr><td class="time-col">P2<br><span class="time">9:00–9:40</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Accounts(T5)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr><td class="time-col">P3<br><span class="time">9:40–10:20</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P4<br><span class="time">10:20–11:00</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P5<br><span class="time">11:00–11:40</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr class="break-row"><td class="time-col">Break</td><td colspan="5" class="break-cell">11:40 – 12:30</td></tr>
+<tr><td class="time-col">P6<br><span class="time">12:30–1:10</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P7<br><span class="time">1:10–1:50</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Economics(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="free">Free</td></tr>
+<tr><td class="time-col">P8<br><span class="time">1:50–2:30</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Economics(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td><td class="free">Free</td></tr>
+
+        </tbody>
+      </table>
+      </div>
+    </section>
+    
+    <section class="class-block" id="SS3">
+      <h2>SS3</h2>
+      <div class="table-wrap">
+      <table>
+        <thead><tr><th>Period</th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr></thead>
+        <tbody>
+        <tr><td class="time-col">P1<br><span class="time">8:20–9:00</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P2<br><span class="time">9:00–9:40</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Commerce(T9)</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td></tr>
+<tr><td class="time-col">P3<br><span class="time">9:40–10:20</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Accounts(T5)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr><td class="time-col">P4<br><span class="time">10:20–11:00</span></td><td class="dept"><div class="dept-line">Phy(T4)</div><div class="dept-line">History(T7)</div><div class="dept-line">Accounts(T5)</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="dept"><div class="dept-line">Bio(T3)</div><div class="dept-line">Yoruba(T8)</div><div class="dept-line">Marketing(T7)</div></td><td class="dept"><div class="dept-line">Chem(T11)</div><div class="dept-line">CRS(T8)</div><div class="dept-line">Economics(T9)</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr><td class="time-col">P5<br><span class="time">11:00–11:40</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr class="break-row"><td class="time-col">Break</td><td colspan="5" class="break-cell">11:40 – 12:30</td></tr>
+<tr><td class="time-col">P6<br><span class="time">12:30–1:10</span></td><td class="dept"><div class="dept-line">FM(T1)/Agric(T6)</div><div class="dept-line">Government(T2)</div><div class="dept-line">Comm free</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">DT</div><div class="teacher">T1 · whole class</div></td></tr>
+<tr><td class="time-col">P7<br><span class="time">1:10–1:50</span></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">Math</div><div class="teacher">T4 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td><td class="free">Free</td></tr>
+<tr><td class="time-col">P8<br><span class="time">1:50–2:30</span></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">English</div><div class="teacher">T10 · whole class</div></td><td class="joint"><div class="subj">Civic</div><div class="teacher">T2 · whole class</div></td><td class="joint"><div class="subj">Livestock</div><div class="teacher">T6 · whole class</div></td><td class="free">Free</td></tr>
+
+        </tbody>
+      </table>
+      </div>
+    </section>
+    
+</main>
+<footer>
+  Green rows = whole-class joint lessons (Math, English, Civic, DT, Livestock). Tan cells = departmental periods — Science, Commercial and Arts run in parallel with three different teachers. Accounts (T5) is confined to Monday only, per constraint. SS1 Chemistry is taught by T1; SS2/SS3 Chemistry by T11 (Tue/Thu only), splitting the load since T1 also carries DT and Further-Maths across all three classes.
+</footer>
+</body>
+</html>
